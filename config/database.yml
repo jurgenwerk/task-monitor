@@ -1,0 +1,13 @@
+development:
+  adapter: postgresql
+  database: rake_monitor_dev
+  host: localhost
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+test:
+  adapter: postgresql
+  database: rake_monitor_test
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: localhost
+  min_messages: WARNING
