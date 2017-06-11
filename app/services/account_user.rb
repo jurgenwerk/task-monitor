@@ -6,4 +6,11 @@ class AccountUser
     @user = user
     @access = user.user_account_accesses.where(account_id: account.id).first
   end
+
+  def task_instances
+    TaskInstance
+      .joins(:task)
+      .joins(task: :app_monitor)
+      .where("app_monitors.account_id = ?", @account.id)
+  end
 end

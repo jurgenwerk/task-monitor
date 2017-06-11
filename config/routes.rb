@@ -9,7 +9,8 @@ Rails.application.routes.draw do
       resources :users
       resources :task_instances do
         collection do
-          post :track
+          post :start
+          post :end
         end
       end
     end
