@@ -20,7 +20,7 @@ RSpec.describe Api::V1::TaskInstancesController do
             task_name: task.name,
             task_instance_uuid: SecureRandom.uuid,
             start_time: 10.minutes.ago,
-            monitor_id: app_monitor.id
+            monitor_api_key: app_monitor.api_key
           }
 
           task_instance_attrs = JSON.parse(response.body)
@@ -37,7 +37,7 @@ RSpec.describe Api::V1::TaskInstancesController do
             task_name: "task 1",
             task_instance_uuid: SecureRandom.uuid,
             start_time: start_time,
-            monitor_id: app_monitor.id
+            monitor_api_key: app_monitor.api_key
           }
 
           task_instance_attrs = JSON.parse(response.body)
@@ -61,7 +61,8 @@ RSpec.describe Api::V1::TaskInstancesController do
         post :end, params: {
           access_token: access_token.token,
           task_instance_uuid: task_instance.uuid,
-          end_time: end_time
+          end_time: end_time,
+          monitor_api_key: app_monitor.api_key
         }
 
         expect(task_instance.start_time).to be_present

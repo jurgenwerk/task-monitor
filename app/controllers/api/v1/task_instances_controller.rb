@@ -1,17 +1,19 @@
 module Api
   module V1
     class TaskInstancesController < Api::V1::ApiController
+      before_action :check_monitor_api_key
       before_action :check_start_params, only: :start
+
       before_action :check_end_params, only: :end
 
       def start
-        find_app_monitor
         find_or_create_task
 
         @task_instance =
           @task.task_instances.create(uuid: params[:task_instance_uuid])
 
         @task_instance.update(start_time: params[:start_time])
+
         render_task_instance
       end
 
@@ -46,16 +48,21 @@ module Api
         end
       end
 
-      def find_app_monitor
-        @app_monitor =
-          current_account.app_monitors.find(params[:monitor_id])
-      end
-
       def find_or_create_task
         task_name = params[:task_name]
         @task =
           @app_monitor.tasks.find_by_name(task_name) ||
             @app_monitor.tasks.create(name: task_name)
+      end
+
+      def check_monitor_api_key
+        @app_monitor = AppMonitor.find_by_api_key(params[:monitor_api_key])
+
+        if params[:monitor_api_key].blank?
+          render json: { error: "Missing monitor_api_key param." }, status: 422
+        elsif @app_monitor.blank?
+          render json: { error: "Invalid monitor_api_key param." }, status: 422
+        end
       end
     end
   end

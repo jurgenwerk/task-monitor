@@ -1,6 +1,6 @@
 module Api::V1
   class ApiController < ApplicationController
-    before_action :doorkeeper_authorize!
+    # before_action :doorkeeper_authorize!
 
     def index
       render text: 'Rake monitor API'
