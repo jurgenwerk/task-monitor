@@ -3,7 +3,6 @@ module Api
     class TaskInstancesController < Api::V1::ApiController
       before_action :check_monitor_api_key
       before_action :check_start_params, only: :start
-
       before_action :check_end_params, only: :end
 
       def start
@@ -19,7 +18,7 @@ module Api
 
       def end
         @task_instance =
-          current_account_user.task_instances.find_by_uuid!(params[:task_instance_uuid])
+          @app_monitor.task_instances.find_by_uuid!(params[:task_instance_uuid])
         @task_instance.update(end_time: params[:end_time])
         render_task_instance
       end
@@ -57,7 +56,6 @@ module Api
 
       def check_monitor_api_key
         @app_monitor = AppMonitor.find_by_api_key(params[:monitor_api_key])
-
         if params[:monitor_api_key].blank?
           render json: { error: "Missing monitor_api_key param." }, status: 422
         elsif @app_monitor.blank?
