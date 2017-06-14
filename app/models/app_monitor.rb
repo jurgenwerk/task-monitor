@@ -1,7 +1,7 @@
 class AppMonitor < ApplicationRecord
   belongs_to :account
   has_many :tasks, dependent: :destroy
-
+  has_many :task_instances, through: :tasks
   before_validation :create_api_key
 
   def create_api_key
