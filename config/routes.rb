@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get '/users/me', to: 'users#me'
       resources :users
+      resources :app_monitors
       resources :task_instances do
         collection do
           post :start
