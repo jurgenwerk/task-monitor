@@ -21,9 +21,6 @@ gem 'validates_email_format_of'
 gem 'active_model_serializers'
 gem 'rack-cors'
 
-# External services
-gem 'aws-sdk', '~> 2'
-
 group :development, :test do
   gem 'dotenv-rails'
   gem 'factory_girl_rails'
