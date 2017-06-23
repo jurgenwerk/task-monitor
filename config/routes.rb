@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get '/users/me', to: 'users#me'
       resources :users
       resources :app_monitors
+      resources :tasks
       resources :task_instances do
         collection do
           post :start
